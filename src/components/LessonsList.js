@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import LessonDataService from "../services/LessonService";
 import { Link } from "react-router-dom";
+import { Test, QuestionGroup, Question, Option } from 'react-multiple-choice';
+
 
 const LessonsList = () => {
   const [lessons, setLessons] = useState([]);
@@ -38,17 +40,6 @@ const LessonsList = () => {
     setCurrentLesson(lesson);
     setCurrentIndex(index);
   };
-
-  // const removeAllLessons = () => {
-  //   LessonDataService.removeAll()
-  //     .then(response => {
-  //       console.log(response.data);
-  //       refreshList();
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     });
-  // };
 
   const findByTitle = () => {
     LessonDataService.findByTitle(searchTitle)
@@ -101,12 +92,7 @@ const LessonsList = () => {
             ))}
         </ul>
 
-        {/* <button
-          className="m-3 btn btn-sm btn-danger"
-          onClick={removeAllLessons}
-        >
-          Remove All
-        </button> */}
+
       </div>
       <div className="col-md-6">
         {currentLesson ? (
@@ -118,7 +104,8 @@ const LessonsList = () => {
               </label>{" "}
               {currentLesson.title}
             </div>
-            {currentLesson.hideDescription ? (<p>Get rekt</p>) : (
+
+            {currentLesson.hideDescription ? (<p></p>) : (
               <div>
                 <label>
                   <strong>Description:</strong>
@@ -126,12 +113,16 @@ const LessonsList = () => {
                 {currentLesson.description}
               </div>
             )}
-                {/* <div>
-              <label>
-                <strong>Status:</strong>
-              </label>{" "}
-              {currentLesson.published ? "Published" : "Pending"}
-            </div> */}
+
+            {currentLesson.hideQuestions ? (<p></p>) : (
+              <div>
+                <label>
+                  <strong>Questions:</strong>
+                </label>{" "}
+                {currentLesson.hideQuestions}
+              </div>
+            )}
+
 
             <Link
               to={"/lessons/" + currentLesson._id}
@@ -148,11 +139,11 @@ const LessonsList = () => {
             </Link> */}
           </div>
         ) : (
-          <div>
-            <br />
-            <p>Please click on a lesson...</p>
-          </div>
-        )}
+            <div>
+              <br />
+              <p>Please click on a lesson...</p>
+            </div>
+          )}
       </div>
     </div>
   );

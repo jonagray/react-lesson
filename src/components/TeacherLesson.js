@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import LessonDataService from "../services/LessonService";
 import { Link } from "react-router-dom";
 import ReactPlayer from 'react-player';
+import { Test, QuestionGroup, Question, Option } from 'react-multiple-choice';
 
 const TeacherLesson = props => {
   const initialLessonState = {
@@ -10,7 +11,8 @@ const TeacherLesson = props => {
     description: "",
     published: false,
     hideDescription: false,
-    url: ""
+    hideQuestions: false,
+    url: "",
   };
   const [currentLesson, setCurrentLesson] = useState(initialLessonState);
   const [message, setMessage] = useState("");
@@ -41,7 +43,7 @@ const TeacherLesson = props => {
       title: currentLesson.title,
       description: currentLesson.description,
       published: status,
-      hideDescription: status
+      // hideDescription: status
     };
 
     LessonDataService.update(currentLesson._id, data)
@@ -73,6 +75,26 @@ const TeacherLesson = props => {
       });
   };
 
+  const updateHideQuestions = status => {
+    var data = {
+      _id: currentLesson._id,
+      title: currentLesson.title,
+      description: currentLesson.description,
+      published: status,
+      hideDescription: status,
+      hideQuestions: status
+    };
+
+    LessonDataService.update(currentLesson._id, data)
+      .then(response => {
+        setCurrentLesson({ ...currentLesson, hideQuestions: status });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   const updateLesson = () => {
     LessonDataService.update(currentLesson._id, currentLesson)
       .then(response => {
@@ -95,18 +117,22 @@ const TeacherLesson = props => {
       });
   };
 
+  const myStyle = {
+    paddingTop: "10px",
+  };
+
   return (
     <div>
       {currentLesson ? (
-       
+
         <div className="edit-form">
           <h4>Lesson</h4>
           <Fragment>
-          <div>
-          <ReactPlayer
-            url={currentLesson.url}
-          />
-          </div>
+            <div>
+              <ReactPlayer
+                url={currentLesson.url}
+              />
+            </div>
           </Fragment>
           <form>
             <div className="form-group">
@@ -120,7 +146,7 @@ const TeacherLesson = props => {
                 onChange={handleInputChange}
               />
             </div>
-           
+
 
             {currentLesson.hideDescription ? (
               <div>
@@ -128,17 +154,48 @@ const TeacherLesson = props => {
                 <p></p>
               </div>
             ) : (
-            <div className="form-group">
-              <label htmlFor="description">Description</label>
-              <input
-                type="text"
-                className="form-control"
-                id="description"
-                name="description"
-                value={currentLesson.description}
-                onChange={handleInputChange}
-              />
-            </div>
+                <div className="form-group">
+                  <label htmlFor="description">Description</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="description"
+                    name="description"
+                    value={currentLesson.description}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              )}
+
+            {currentLesson.hideQuestions ? (<p></p>) : (
+              <Fragment>
+              <label>Questions</label>
+              <Test onOptionSelect={selectedOptions => this.setState({ selectedOptions })}>
+                <QuestionGroup questionNumber={0}>
+                  <Question>What is the primary subject of this video?</Question>
+                  <Option style={{
+                    option: {
+                      width: "100%"
+                    }
+                  }}>Option A</Option>
+                  <Option style={{
+                    option: {
+                      width: "100%"
+                    }
+                  }}>Option B</Option>
+                  <Option style={{
+                    option: {
+                      width: "100%"
+                    }
+                  }}>Option C</Option>
+                  <Option style={{
+                    option: {
+                      width: "100%"
+                    }
+                  }}>Option D</Option>
+                </QuestionGroup>
+              </Test>
+              </Fragment>
             )}
 
 
@@ -154,6 +211,13 @@ const TeacherLesson = props => {
                 <strong>Description:</strong>
               </label>
               {currentLesson.hideDescription ? "Hidden" : "Viewable"}
+            </div>
+
+            <div className="form-group">
+              <label>
+                <strong>Questions:</strong>
+              </label>
+              {currentLesson.hideQuestions ? "Hidden" : "Viewable"}
             </div>
 
 
@@ -180,14 +244,30 @@ const TeacherLesson = props => {
               className="badge badge-warning"
               onClick={() => updateHideDescription(false)}
             >
-              Hide
+              Show Description
             </button>
           ) : (
               <button
                 className="badge badge-warning"
                 onClick={() => updateHideDescription(true)}
               >
-                Toggle Description
+                Hide Description
+              </button>
+            )}
+
+          {currentLesson.hideQuestions ? (
+            <button
+              className="badge badge-warning"
+              onClick={() => updateHideQuestions(false)}
+            >
+              Show Questions
+            </button>
+          ) : (
+              <button
+                className="badge badge-warning"
+                onClick={() => updateHideQuestions(true)}
+              >
+                Hide Questions
               </button>
             )}
 

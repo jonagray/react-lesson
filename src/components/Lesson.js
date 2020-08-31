@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import LessonDataService from "../services/LessonService";
 import { Link } from "react-router-dom";
 import ReactPlayer from 'react-player';
+import { Test, QuestionGroup, Question, Option } from 'react-multiple-choice';
 
 const Lesson = props => {
   const initialLessonState = {
@@ -10,6 +11,7 @@ const Lesson = props => {
     description: "",
     published: false,
     hideDescription: false,
+    hideQuestions: false,
     url: ""
   };
   const [currentLesson, setCurrentLesson] = useState(initialLessonState);
@@ -35,57 +37,17 @@ const Lesson = props => {
     setCurrentLesson({ ...currentLesson, [name]: value });
   };
 
-  // const updatePublished = status => {
-  //   var data = {
-  //     _id: currentLesson._id,
-  //     title: currentLesson.title,
-  //     description: currentLesson.description,
-  //     published: status
-  //   };
-
-  //   LessonDataService.update(currentLesson._id, data)
-  //     .then(response => {
-  //       setCurrentLesson({ ...currentLesson, published: status });
-  //       console.log(response.data);
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     });
-  // };
-
-  // const updateLesson = () => {
-  //   LessonDataService.update(currentLesson._id, currentLesson)
-  //     .then(response => {
-  //       console.log(response.data);
-  //       setMessage("The lesson was updated successfully!");
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     });
-  // };
-
-  // const deleteLesson = () => {
-  //   LessonDataService.remove(currentLesson._id)
-  //     .then(response => {
-  //       console.log(response.data);
-  //       props.history.push("/lessons");
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     });
-  // };
-
   return (
     <div>
       {currentLesson ? (
         <div className="edit-form">
           <h4>Lesson</h4>
           <Fragment>
-          <div>
-          <ReactPlayer
-            url={currentLesson.url}
-          />
-          </div>
+            <div>
+              <ReactPlayer
+                url={currentLesson.url}
+              />
+            </div>
           </Fragment>
           <form>
             <div className="form-group">
@@ -100,17 +62,48 @@ const Lesson = props => {
               />
             </div>
             {currentLesson.hideDescription ? (<p></p>) : (
-            <div className="form-group">
-              <label htmlFor="description">Description</label>
-              <input
-                type="text"
-                className="form-control"
-                id="description"
-                name="description"
-                value={currentLesson.description}
-                onChange={handleInputChange}
-              />
-            </div>
+              <div className="form-group">
+                <label htmlFor="description">Description</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="description"
+                  name="description"
+                  value={currentLesson.description}
+                  onChange={handleInputChange}
+                />
+              </div>
+            )}
+
+            {currentLesson.hideQuestions ? (<p></p>) : (
+              <Fragment>
+                <label>Questions</label>
+                <Test onOptionSelect={selectedOptions => this.setState({ selectedOptions })}>
+                  <QuestionGroup questionNumber={0}>
+                    <Question>What is the primary subject of this video?</Question>
+                    <Option style={{
+                      option: {
+                        width: "100%"
+                      }
+                    }}>Option A</Option>
+                    <Option style={{
+                      option: {
+                        width: "100%"
+                      }
+                    }}>Option B</Option>
+                    <Option style={{
+                      option: {
+                        width: "100%"
+                      }
+                    }}>Option C</Option>
+                    <Option style={{
+                      option: {
+                        width: "100%"
+                      }
+                    }}>Option D</Option>
+                  </QuestionGroup>
+                </Test>
+              </Fragment>
             )}
 
             {/* <div className="form-group">
@@ -151,11 +144,11 @@ const Lesson = props => {
           <p>{message}</p>
         </div>
       ) : (
-        <div>
-          <br />
-          <p>Please click on a lesson...</p>
-        </div>
-      )}
+          <div>
+            <br />
+            <p>Please click on a lesson...</p>
+          </div>
+        )}
     </div>
   );
 };
