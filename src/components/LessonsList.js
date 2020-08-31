@@ -59,7 +59,7 @@ const LessonsList = () => {
           <input
             type="text"
             className="form-control"
-            placeholder="Search by title"
+            placeholder="Search for a lesson"
             value={searchTitle}
             onChange={onChangeSearchTitle}
           />
@@ -114,16 +114,6 @@ const LessonsList = () => {
               </div>
             )}
 
-            {currentLesson.hideQuestions ? (<p></p>) : (
-              <div>
-                <label>
-                  <strong>Questions:</strong>
-                </label>{" "}
-                {currentLesson.hideQuestions}
-              </div>
-            )}
-
-
             <Link
               to={"/lessons/" + currentLesson._id}
               className="badge badge-warning"
@@ -131,17 +121,11 @@ const LessonsList = () => {
               View
             </Link>
 
-            {/* <Link
-              to={"/lessons/" + currentLesson._id}
-              className="badge badge-warning"
-            >
-              Edit
-            </Link> */}
           </div>
         ) : (
             <div>
               <br />
-              <p>Please click on a lesson...</p>
+              <p>Please click on a lesson</p>
             </div>
           )}
       </div>

@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
 import AuthService from './services/auth.service';
-
 import AddLesson from "./components/AddLesson";
 import Lesson from "./components/Lesson";
 import LessonsList from "./components/LessonsList";
@@ -53,28 +51,11 @@ const App = () => {
 
             {showModeratorBoard && (
               <li className="nav-item">
-                <Link to={"/lessons-teacher"} className="nav-link">
-                  Edit Lessons
-                </Link>
-              </li>
-            )}
-
-            {showModeratorBoard && (
-              <li className="nav-item">
                 <Link to={"/add"} className="nav-link">
-                  Add
+                  Add Lesson
              </Link>
               </li>
             )}
-
-
-            {/* {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
-              </li>
-            )} */}
 
             {showAdminBoard && (
               <li className="nav-item">
@@ -84,10 +65,10 @@ const App = () => {
               </li>
             )}
 
-            {currentUser && (
+            {showModeratorBoard && (
               <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  User
+                <Link to={"/lessons-teacher"} className="nav-link">
+                  Modify Lessons
                 </Link>
               </li>
             )}
@@ -136,9 +117,6 @@ const App = () => {
           <Switch>
             <Route exact path={["/", "/home"]} component={Home} />
             <Route exact path={["/lessons/published"]} component={LessonsList} />
-
-            {/* <Route exact path={["/lessons"]} component={LessonsList} /> */}
-            {/* <Route exact path={["/lessons"]} component={StudentLessonsList} /> */}
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />

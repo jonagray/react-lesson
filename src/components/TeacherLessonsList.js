@@ -68,7 +68,7 @@ const TeacherLessonsList = () => {
           <input
             type="text"
             className="form-control"
-            placeholder="Search by title"
+            placeholder="Search for a lesson"
             value={searchTitle}
             onChange={onChangeSearchTitle}
           />
@@ -119,7 +119,7 @@ const TeacherLessonsList = () => {
               {currentLesson.title}
             </div>
 
-            {currentLesson.hideDescription ? (<p>Sucks to suck</p>) : (
+            {currentLesson.hideDescription ? (<p></p>) : (
             <div>
               <label>
                 <strong>Description:</strong>
@@ -127,7 +127,7 @@ const TeacherLessonsList = () => {
               {currentLesson.description}
             </div>
             )}
-            
+
             <div>
               <label>
                 <strong>Status:</strong>
@@ -145,7 +145,7 @@ const TeacherLessonsList = () => {
         ) : (
           <div>
             <br />
-            <p>Please click on a lesson...</p>
+            <p>Please click on a lesson</p>
           </div>
         )}
       </div>
