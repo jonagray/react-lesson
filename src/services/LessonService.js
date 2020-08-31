@@ -4,6 +4,10 @@ const getAll = () => {
   return http.get("/lessons");
 };
 
+// const getAllStudentView = () => {
+//   return http.get(`/lessons`);
+// };
+
 const get = id => {
   return http.get(`/lessons/${id}`);
 };
@@ -35,5 +39,6 @@ export default {
   update,
   remove,
   removeAll,
-  findByTitle
+  findByTitle,
+  // getAllStudentView
 };
