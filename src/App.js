@@ -8,7 +8,8 @@ import AuthService from './services/auth.service';
 import AddLesson from "./components/AddLesson";
 import Lesson from "./components/Lesson";
 import LessonsList from "./components/LessonsList";
-// import StudentLessonsList from './components/StudentLessonsList';
+import TeacherLesson from "./components/TeacherLesson";
+import TeacherLessonsList from './components/TeacherLessonsList';
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
@@ -52,7 +53,7 @@ const App = () => {
 
             {showModeratorBoard && (
               <li className="nav-item">
-                <Link to={"/lessons"} className="nav-link">
+                <Link to={"/lessons-teacher"} className="nav-link">
                   Edit Lessons
                 </Link>
               </li>
@@ -93,7 +94,7 @@ const App = () => {
 
             {currentUser && (
               <li className="nav-item">
-                <Link to={"/lessons"} className="nav-link">
+                <Link to={"/lessons/published"} className="nav-link">
                   Student Lessons
                 </Link>
               </li>
@@ -134,7 +135,9 @@ const App = () => {
         <div className="container mt-3">
           <Switch>
             <Route exact path={["/", "/home"]} component={Home} />
-            <Route exact path={["/lessons"]} component={LessonsList} />
+            <Route exact path={["/lessons/published"]} component={LessonsList} />
+
+            {/* <Route exact path={["/lessons"]} component={LessonsList} /> */}
             {/* <Route exact path={["/lessons"]} component={StudentLessonsList} /> */}
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
@@ -144,6 +147,8 @@ const App = () => {
             <Route path="/admin" component={BoardAdmin} />
             <Route exact path="/add" component={AddLesson} />
             <Route path="/lessons/:id" component={Lesson} />
+            <Route exact path={["/lessons-teacher"]} component={TeacherLessonsList} />
+            <Route path="/lessons-edit/:id" component={TeacherLesson} />
           </Switch>
         </div>
       </div>

@@ -6,7 +6,8 @@ const AddLesson = () => {
     id: null,
     title: "",
     description: "",
-    published: false
+    published: false,
+    url: ""
   };
   const [lesson, setLesson] = useState(initialLessonState);
   const [submitted, setSubmitted] = useState(false);
@@ -19,7 +20,8 @@ const AddLesson = () => {
   const saveLesson = () => {
     var data = {
       title: lesson.title,
-      description: lesson.description
+      description: lesson.description,
+      url: lesson.url
     };
 
     LessonDataService.create(data)
@@ -28,7 +30,8 @@ const AddLesson = () => {
           id: response.data.id,
           title: response.data.title,
           description: response.data.description,
-          published: response.data.published
+          published: response.data.published,
+          url: response.data.url
         });
         setSubmitted(true);
         console.log(response.data);
@@ -77,6 +80,19 @@ const AddLesson = () => {
               value={lesson.description}
               onChange={handleInputChange}
               name="description"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="url">URL</label>
+            <input
+              type="text"
+              className="form-control"
+              id="url"
+              required
+              value={lesson.url}
+              onChange={handleInputChange}
+              name="url"
             />
           </div>
 

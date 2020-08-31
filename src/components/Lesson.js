@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import LessonDataService from "../services/LessonService";
 import { Link } from "react-router-dom";
+import ReactPlayer from 'react-player';
 
 const Lesson = props => {
   const initialLessonState = {
     id: null,
     title: "",
     description: "",
-    published: false
+    published: false,
+    hideDescription: false,
+    url: ""
   };
   const [currentLesson, setCurrentLesson] = useState(initialLessonState);
   const [message, setMessage] = useState("");
@@ -32,51 +35,58 @@ const Lesson = props => {
     setCurrentLesson({ ...currentLesson, [name]: value });
   };
 
-  const updatePublished = status => {
-    var data = {
-      _id: currentLesson._id,
-      title: currentLesson.title,
-      description: currentLesson.description,
-      published: status
-    };
+  // const updatePublished = status => {
+  //   var data = {
+  //     _id: currentLesson._id,
+  //     title: currentLesson.title,
+  //     description: currentLesson.description,
+  //     published: status
+  //   };
 
-    LessonDataService.update(currentLesson._id, data)
-      .then(response => {
-        setCurrentLesson({ ...currentLesson, published: status });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+  //   LessonDataService.update(currentLesson._id, data)
+  //     .then(response => {
+  //       setCurrentLesson({ ...currentLesson, published: status });
+  //       console.log(response.data);
+  //     })
+  //     .catch(e => {
+  //       console.log(e);
+  //     });
+  // };
 
-  const updateLesson = () => {
-    LessonDataService.update(currentLesson._id, currentLesson)
-      .then(response => {
-        console.log(response.data);
-        setMessage("The lesson was updated successfully!");
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+  // const updateLesson = () => {
+  //   LessonDataService.update(currentLesson._id, currentLesson)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       setMessage("The lesson was updated successfully!");
+  //     })
+  //     .catch(e => {
+  //       console.log(e);
+  //     });
+  // };
 
-  const deleteLesson = () => {
-    LessonDataService.remove(currentLesson._id)
-      .then(response => {
-        console.log(response.data);
-        props.history.push("/lessons");
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+  // const deleteLesson = () => {
+  //   LessonDataService.remove(currentLesson._id)
+  //     .then(response => {
+  //       console.log(response.data);
+  //       props.history.push("/lessons");
+  //     })
+  //     .catch(e => {
+  //       console.log(e);
+  //     });
+  // };
 
   return (
     <div>
       {currentLesson ? (
         <div className="edit-form">
           <h4>Lesson</h4>
+          <Fragment>
+          <div>
+          <ReactPlayer
+            url={currentLesson.url}
+          />
+          </div>
+          </Fragment>
           <form>
             <div className="form-group">
               <label htmlFor="title">Title</label>
@@ -89,6 +99,7 @@ const Lesson = props => {
                 onChange={handleInputChange}
               />
             </div>
+            {currentLesson.hideDescription ? (<p></p>) : (
             <div className="form-group">
               <label htmlFor="description">Description</label>
               <input
@@ -100,42 +111,43 @@ const Lesson = props => {
                 onChange={handleInputChange}
               />
             </div>
+            )}
 
-            <div className="form-group">
+            {/* <div className="form-group">
               <label>
                 <strong>Status:</strong>
               </label>
               {currentLesson.published ? "Published" : "Pending"}
-            </div>
+            </div> */}
           </form>
 
-          {currentLesson.published ? (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updatePublished(false)}
-            >
-              UnPublish
-            </button>
+          {/* {currentLesson.published ? (
+            // <button
+            //   className="badge badge-primary mr-2"
+            //   onClick={() => updatePublished(false)}
+            // >
+            //   UnPublish
+            // </button>
           ) : (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updatePublished(true)}
-            >
-              Publish
-            </button>
-          )}
+            // <button
+            //   className="badge badge-primary mr-2"
+            //   onClick={() => updatePublished(true)}
+            // >
+            //   Publish
+            // </button>
+          )} */}
 
-          <button className="badge badge-danger mr-2" onClick={deleteLesson}>
+          {/* <button className="badge badge-danger mr-2" onClick={deleteLesson}>
             Delete
-          </button>
+          </button> */}
 
-          <button
+          {/* <button
             type="submit"
             className="badge badge-success"
             onClick={updateLesson}
           >
             Update
-          </button>
+          </button> */}
           <p>{message}</p>
         </div>
       ) : (

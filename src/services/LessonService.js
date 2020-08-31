@@ -4,9 +4,9 @@ const getAll = () => {
   return http.get("/lessons");
 };
 
-// const getAllStudentView = () => {
-//   return http.get(`/lessons`);
-// };
+const getAllStudentView = () => {
+  return http.get(`/lessons/published`);
+};
 
 const get = id => {
   return http.get(`/lessons/${id}`);
@@ -40,5 +40,5 @@ export default {
   remove,
   removeAll,
   findByTitle,
-  // getAllStudentView
+  getAllStudentView
 };

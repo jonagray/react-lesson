@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import LessonDataService from "../services/LessonService";
 import { Link } from "react-router-dom";
 
-const LessonsList = () => {
+const TeacherLessonsList = () => {
   const [lessons, setLessons] = useState([]);
   const [currentLesson, setCurrentLesson] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
@@ -18,7 +18,7 @@ const LessonsList = () => {
   };
 
   const retrieveLessons = () => {
-    LessonDataService.getAllStudentView()
+    LessonDataService.getAll()
       .then(response => {
         setLessons(response.data);
         console.log(response.data);
@@ -39,16 +39,16 @@ const LessonsList = () => {
     setCurrentIndex(index);
   };
 
-  // const removeAllLessons = () => {
-  //   LessonDataService.removeAll()
-  //     .then(response => {
-  //       console.log(response.data);
-  //       refreshList();
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     });
-  // };
+  const removeAllLessons = () => {
+    LessonDataService.removeAll()
+      .then(response => {
+        console.log(response.data);
+        refreshList();
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
 
   const findByTitle = () => {
     LessonDataService.findByTitle(searchTitle)
@@ -101,12 +101,12 @@ const LessonsList = () => {
             ))}
         </ul>
 
-        {/* <button
+        <button
           className="m-3 btn btn-sm btn-danger"
           onClick={removeAllLessons}
         >
           Remove All
-        </button> */}
+        </button>
       </div>
       <div className="col-md-6">
         {currentLesson ? (
@@ -118,34 +118,29 @@ const LessonsList = () => {
               </label>{" "}
               {currentLesson.title}
             </div>
-            {currentLesson.hideDescription ? (<p>Get rekt</p>) : (
-              <div>
-                <label>
-                  <strong>Description:</strong>
-                </label>{" "}
-                {currentLesson.description}
-              </div>
+
+            {currentLesson.hideDescription ? (<p>Sucks to suck</p>) : (
+            <div>
+              <label>
+                <strong>Description:</strong>
+              </label>{" "}
+              {currentLesson.description}
+            </div>
             )}
-                {/* <div>
+            
+            <div>
               <label>
                 <strong>Status:</strong>
               </label>{" "}
               {currentLesson.published ? "Published" : "Pending"}
-            </div> */}
+            </div>
 
             <Link
-              to={"/lessons/" + currentLesson._id}
-              className="badge badge-warning"
-            >
-              View
-            </Link>
-
-            {/* <Link
-              to={"/lessons/" + currentLesson._id}
+              to={"/lessons-edit/" + currentLesson._id}
               className="badge badge-warning"
             >
               Edit
-            </Link> */}
+            </Link>
           </div>
         ) : (
           <div>
@@ -158,4 +153,4 @@ const LessonsList = () => {
   );
 };
 
-export default LessonsList;
+export default TeacherLessonsList;
